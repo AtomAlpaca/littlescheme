@@ -1,0 +1,10 @@
+name = "littlescheme"
+version = "0.1.0"
+defaultTargets = ["littlescheme"]
+
+[[lean_lib]]
+name = "Littlescheme"
+
+[[lean_exe]]
+name = "littlescheme"
+root = "Main"
