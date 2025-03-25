@@ -41,12 +41,14 @@ partial def EvalList
   | Node.Sym x :: _rest =>
     let rest := EvalListHelper builtinEnv symbolEnv _rest;
     match builtinEnv.get? x with
-    | some f => (symbolEnv, f rest)
+    | some f => (
+      symbolEnv,
+      f (if x = "quote" || x = "'" then _rest else rest))
     | none => match symbolEnv.get? x with
       | some (Node.Lam param body) => EvalLambda builtinEnv symbolEnv (Node.Lam param body) rest
-      | _ => (symbolEnv, Node.Lst list)
+      | _ => (symbolEnv, Node.Lst (EvalListHelper builtinEnv symbolEnv list))
   | (Node.Lam param body) :: rest => EvalLambda builtinEnv symbolEnv (Node.Lam param body) rest
-  | _ => (symbolEnv, Node.Lst list)
+  | _ => (symbolEnv, Node.Lst (EvalListHelper builtinEnv symbolEnv list))
 
 partial def EvalLambda
 (builtinEnv : builtinEnvType)

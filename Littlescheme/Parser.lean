@@ -1,5 +1,4 @@
 import Littlescheme.Basic
-
 mutual
 partial def Parse
 (list : List String) : Node × List String :=
@@ -14,6 +13,7 @@ partial def PraseSeq
   | "lambda" => PraseLam list
   | "let"    => PraseLet list
   | "if"     => PraseIf  list
+  | ")"      => (Node.Lst [], list.tail)
   | _        => let (fst, snd) := PraseList list; (Node.Lst fst, snd)
 
 partial def PraseList
